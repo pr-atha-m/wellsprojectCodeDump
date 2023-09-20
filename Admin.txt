@@ -1,0 +1,98 @@
+import React, { useState } from 'react';
+import './AdminDashboard.css'; // Import your CSS file for styling
+
+function AdminDashboard() {
+    const [email, setEmail] = useState('');
+    const [userData, setUserData] = useState(null);
+
+    const fetchUserData = () => {
+        // You can replace this URL with your backend API endpoint
+        fetch(`/api/users?email=${email}`)
+            .then(response => response.json())
+            .then(data => {
+                setUserData(data);
+            })
+            .catch(error => {
+                console.error('Error fetching user data:', error);
+                setUserData(null);
+            });
+    };
+
+    return (
+        <div className="admin-card">
+            <h1>Admin Dashboard</h1>
+            <div className="search-container">
+                <input
+                    type="text"
+                    placeholder="Enter Email ID"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+                <button onClick={fetchUserData}>Search</button>
+            </div>
+            {userData && (
+                <div className="user-data">
+                    <h2>User Information</h2>
+                    <p><strong>Email:</strong> {userData.email}</p>
+                    {/* Add more user data fields as needed */}
+                </div>
+            )}
+        </div>
+    );
+}
+
+export default AdminDashboard;
+
+/* AdminDashboard.css */
+
+.admin-card {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: #fff;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.user-data {
+    border-top: 1px solid #ccc;
+    margin-top: 20px;
+    padding-top: 20px;
+}
+
+

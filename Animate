@@ -1,0 +1,32 @@
+import React, { useState, useEffect } from 'react';
+
+function TextAnimation() {
+  const [text, setText] = useState('');
+  const originalText = 'Hello, World!';
+  const delay = 100; // Adjust the delay between letters
+
+  useEffect(() => {
+    let currentIndex = 0;
+
+    const interval = setInterval(() => {
+      if (currentIndex < originalText.length) {
+        setText((prevText) => prevText + originalText[currentIndex]);
+        currentIndex++;
+      } else {
+        clearInterval(interval);
+      }
+    }, delay);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  return (
+    <div className="container">
+      <span>{text}</span>
+    </div>
+  );
+}
+
+export default TextAnimation;
